@@ -1,0 +1,25 @@
+- name: Setup Frontend
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install the latest version of Apache
+      ansible.builtin.dnf:
+        name: nginx
+        state: latest
+
+    - name: Removing Default Dir
+      ansible.builtin.file:
+        state: absent
+        path: /usr/share/nginx/html/
+
+    - name: Download & unzip frontend content
+      ansible.builtin.unarchive:
+        src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
+        dest: /usr/share/nginx/html
+        remote_src: yes
+
+    - name: Setup reverse proxy
+      ansible.builtin.copy:
+        src: frontend.conf
+        dest: etc/nginx/default.d/roboshop.conf
+
