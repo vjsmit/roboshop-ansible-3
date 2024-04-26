@@ -1,9 +1,10 @@
 - name: Setup nodejs
   ansible.builtin.import_role:
     name: common
-    file_from: nodejs
+    tasks_from: nodejs
 
 - name: Setup mongo schema
   ansible.builtin.import_role:
     name: common
-    file_from: mongo_schema
+    tasks_from: mongo_schema
+
