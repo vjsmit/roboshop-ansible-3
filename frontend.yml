@@ -14,7 +14,7 @@
 
     - name: Removing Default Dir
       ansible.builtin.file:
-        state: present
+        state: directory
         path: /usr/share/nginx/html/
 
     - name: Download & unzip frontend content
