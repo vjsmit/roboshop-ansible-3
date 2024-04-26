@@ -3,29 +3,29 @@
     name: nginx
     state: latest
 
-  - name: Removing Default Dir
-    ansible.builtin.file:
-      state: absent
-      path: /usr/share/nginx/html/
+- name: Removing Default html Dir
+  ansible.builtin.file:
+    state: absent
+    path: /usr/share/nginx/html/
 
-  - name: Create html Dir
-    ansible.builtin.file:
-      state: directory
-      path: /usr/share/nginx/html/
+- name: Create html Dir
+  ansible.builtin.file:
+    state: directory
+    path: /usr/share/nginx/html/
 
-  - name: Download & unzip frontend content
-    ansible.builtin.unarchive:
-      src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
-      dest: /usr/share/nginx/html
-      remote_src: yes
+- name: Download & unzip frontend content
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes
 
-  - name: Setup reverse proxy
-    ansible.builtin.copy:
-      src: frontend.conf
-      dest: /etc/nginx/default.d/roboshop.conf
+- name: Setup reverse proxy
+  ansible.builtin.copy:
+    src: frontend.conf
+    dest: /etc/nginx/default.d/roboshop.conf
 
-  - name: Start Nginx
-    ansible.builtin.systemd_service:
-      name: nginx
-      state: restarted
-      enabled: true
+- name: Start Nginx
+  ansible.builtin.systemd_service:
+    name: nginx
+    state: restarted
+    enabled: true
