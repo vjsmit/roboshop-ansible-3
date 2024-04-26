@@ -12,7 +12,7 @@
         state: absent
         path: /usr/share/nginx/html/
 
-    - name: Removing Default Dir
+    - name: Create Default Dir
       ansible.builtin.file:
         state: directory
         path: /usr/share/nginx/html/
@@ -26,5 +26,12 @@
     - name: Setup reverse proxy
       ansible.builtin.copy:
         src: frontend.conf
-        dest: etc/nginx/default.d/roboshop.conf
+        dest: /etc/nginx/default.d/roboshop.conf
+
+    - name: Start Nginx
+      ansible.builtin.systemd_service:
+        name: nginx
+        state: restarted
+        enabled: true
+
 
