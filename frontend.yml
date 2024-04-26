@@ -2,7 +2,7 @@
   hosts: all
   become: yes
   tasks:
-    - name: Install the latest version of Apache
+    - name: Install the latest version of Nginx
       ansible.builtin.dnf:
         name: nginx
         state: latest
@@ -11,6 +11,11 @@
       ansible.builtin.file:
         state: absent
         path: /usr/share/nginx/html/
+
+    - name: Removing Default Dir
+        ansible.builtin.file:
+          state: present
+          path: /usr/share/nginx/html/
 
     - name: Download & unzip frontend content
       ansible.builtin.unarchive:
