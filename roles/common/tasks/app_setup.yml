@@ -1,0 +1,14 @@
+- name: Add the user
+  ansible.builtin.user:
+    name: roboshop
+
+- name: Create Default Dir
+  ansible.builtin.file:
+    state: directory
+    path: /app
+
+- name: Download & unzip frontend content
+  ansible.builtin.unarchive:
+  src: https://roboshop-artifacts.s3.amazonaws.com/{{ component }}.zip
+  dest: /app
+  remote_src: yes
