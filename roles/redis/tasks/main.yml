@@ -1,4 +1,4 @@
-- name: Setup redis repo file
+- name: Setup Redis repo file
   ansible.builtin.yum:
     name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
     state: installed
@@ -12,25 +12,17 @@
     name: redis
     state: installed
 
-- name: Update listen address - /etc/redis.conf
+- name: Update listen address
   ansible.builtin.replace:
-    path: /etc/redis.conf
+    path: "{{ item }}"
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
-
-- name: Update listen address - /etc/redis/redis.conf
-  ansible.builtin.replace:
-    path: /etc/redis/redis.conf
-    regexp: '127.0.0.1'
-    replace: '0.0.0.0'
+  loop:
+    - /etc/redis.conf
+    - /etc/redis/redis.conf
 
 - name: Start redis service
   ansible.builtin.systemd:
-    state: restarted
     name: redis
+    state: restarted
     enabled: yes
-
-
-
-
-
