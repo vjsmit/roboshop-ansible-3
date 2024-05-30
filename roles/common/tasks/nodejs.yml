@@ -18,6 +18,11 @@
   args:
     chdir: /app
 
+- name: load_schema
+  ansible.builtin.include_tasks:
+    file: mongo_schema.yml
+  when: load_schema
+
 - name: systemd_setup
   ansible.builtin.include_tasks:
     file: systemd_setup.yml
