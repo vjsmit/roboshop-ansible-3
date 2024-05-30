@@ -1,0 +1,21 @@
+- name: Install maven
+  ansible.builtin.dnf:
+    name: maven
+    state: installed
+
+- name: app_setup
+  ansible.builtin.include_tasks:
+    file: app_setup.yml
+
+- name: Download App Dependencies
+  ansible.builtin.shell: mvn clean package ; mv target/{{ component }}-1.0.jar {{ component }}.jar
+  args:
+    chdir: /app
+
+- name: mysql_schema setup
+  ansible.builtin.include_tasks:
+    file: mysql_schema.yml
+
+- name: systemd_setup
+  ansible.builtin.include_tasks:
+    file: systemd_setup.yml
